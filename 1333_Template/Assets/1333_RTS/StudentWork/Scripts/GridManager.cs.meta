@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 476c145e37f6c2d4f86ee9a9b9d790d6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gridSettings: {fileID: 11400000, guid: 5d67e232351078644bd6992ab2da6162, type: 2}
+  - defaultTerrainType: {fileID: 11400000, guid: 1503592320e47074dbac85dc6023f5cc, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
