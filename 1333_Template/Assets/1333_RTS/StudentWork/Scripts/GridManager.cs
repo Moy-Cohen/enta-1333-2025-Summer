@@ -6,6 +6,7 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private GridSettings gridSettings;
     [SerializeField] private TerrainType defaultTerrainType;
+    [SerializeField] private TerrainType[] terrainTypes;
 
     public GridSettings GridSettings => gridSettings;
 
@@ -28,15 +29,18 @@ public class GridManager : MonoBehaviour
                 ? new Vector3(x, 0, y) * gridSettings.NodeSize
                 : new Vector3(x, y, 0) * gridSettings.NodeSize;
 
+               TerrainType terrain = terrainTypes[Random.Range(0, terrainTypes.Length)];
+
                 GridNode node = new GridNode
                 {
-                    Name = $"Cell_{x}_{y}",
+                    Name = $"{terrain.TerrainName}_{x}_{y}",
                     WorldPosition = worldPos,
+                    terrainType = terrain,
                     walkable = true,
                     Weight = 1,
 
                 };
-                //AllNodes.Add(node);
+                AllNodes.Add(node);
                 gridNodes[x, y] = node;
             }
         }
@@ -53,7 +57,7 @@ public class GridManager : MonoBehaviour
             for(int y = 0;y< gridSettings.GridSizeY; y++)
             {
                 GridNode node = gridNodes[x,y];
-                Gizmos.color = node.walkable ? Color.green : Color.red;
+                Gizmos.color = node.walkable ? node.GizmoColor: Color.red;
                 Gizmos.DrawWireCube(node.WorldPosition, Vector3.one * gridSettings.NodeSize * 0.9f);
             }
         }

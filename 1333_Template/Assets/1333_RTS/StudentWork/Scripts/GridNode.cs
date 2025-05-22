@@ -10,4 +10,11 @@ public struct GridNode
     public Vector3 WorldPosition;
     public bool walkable;
     public int Weight;
+    public TerrainType terrainType;
+
+    public Color GizmoColor => terrainType != null
+                                ? terrainType.GizmoColor
+                                :Color.white; 
+
+
 }

@@ -321,6 +321,9 @@ MonoBehaviour:
   ScrollSpeed: 20
   MinY: 1
   MaxY: 20
+  RotateSpeed: 20
+  RotationX: 0
+  RotationY: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,6 +846,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSettings: {fileID: 11400000, guid: 5d67e232351078644bd6992ab2da6162, type: 2}
   defaultTerrainType: {fileID: 11400000, guid: 1503592320e47074dbac85dc6023f5cc, type: 2}
+  terrainTypes:
+  - {fileID: 11400000, guid: 1503592320e47074dbac85dc6023f5cc, type: 2}
+  - {fileID: 11400000, guid: 2a4e464fc43e64643800e318f4f67988, type: 2}
+  - {fileID: 11400000, guid: 1503afc81ff01014ab7dfdd78eb56acc, type: 2}
   AllNodes: []
 --- !u!4 &1931288775
 Transform:
