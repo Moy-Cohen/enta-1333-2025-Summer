@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -104,7 +104,7 @@ public class Pathfinder : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        /*if (path != null || gridManager == null || !gridManager.IsInitialized)
+        *//*if (path != null || gridManager == null || !gridManager.IsInitialized)
         {
             return;
         }
@@ -117,7 +117,7 @@ public class Pathfinder : MonoBehaviour
             var coord = path[i];
             var currNode = gridManager.GetNode(coord.x, coord.y);
             Gizmos.DrawCube(currNode.Value.WorldPosition + Vector3.up * 0.1f, Vector3.one *  gizmoSize);
-        }*/
+        }*//*
         Handles.color = Color.yellow;
         Handles.DrawLine(Vector3.zero, Vector3.one * 5f); // Should show in Scene
 
@@ -135,4 +135,4 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
-}
+}*/

@@ -64,6 +64,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
+
     public GridNode? GetNode(int x, int y) 
     {
         if(x < 0 || x >= gridSettings.GridSizeX || y < 0  || y >= gridSettings.GridSizeY)
@@ -74,6 +75,18 @@ public class GridManager : MonoBehaviour
         return gridNodes[x,y];
             
         
+    }
+
+    public GridNode? GetNodeFromWorldPosition(Vector3 position)
+    {
+        //Determine which axes to use baedon grid orientation 
+        int x = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.x / gridSettings.NodeSize) : Mathf.RoundToInt(position.x / gridSettings.NodeSize);
+        int y = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.z / gridSettings.NodeSize) : Mathf.RoundToInt(position.y / gridSettings.NodeSize);
+        //Clamp coordinates to grid bounds.
+        x = Mathf.Clamp(x, 0, gridSettings.GridSizeX - 1);
+        y = Mathf.Clamp(y, 0, gridSettings.GridSizeY - 1);
+        //Return the node at the clamped coordinates.
+        return GetNode(x,y);
     }
 
 }
