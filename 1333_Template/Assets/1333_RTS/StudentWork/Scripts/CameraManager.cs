@@ -20,19 +20,19 @@ public class CameraManager : MonoBehaviour
         Vector3 cameraPos = transform.position;
        
 
-        if (Input.GetKey(KeyCode.W) /*|| Input.mousePosition.y >= Screen.height - PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.W) || Input.mousePosition.y >= Screen.height - PanBorderThickness)
         {
             cameraPos.z += PanSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S) /*|| Input.mousePosition.y <= PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.S) || Input.mousePosition.y <= PanBorderThickness)
         {
             cameraPos.z -= PanSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.D) /*|| Input.mousePosition.x >= Screen.width - PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.D) || Input.mousePosition.x >= Screen.width - PanBorderThickness)
         {
             cameraPos.x += PanSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.A) /*|| Input.mousePosition.x <= PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.A) || Input.mousePosition.x <= PanBorderThickness)
         {
             cameraPos.x -= PanSpeed * Time.deltaTime;
         }
