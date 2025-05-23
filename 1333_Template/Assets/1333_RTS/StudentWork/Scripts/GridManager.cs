@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XInput;
 
 public class GridManager : MonoBehaviour
 {
@@ -63,5 +64,16 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    
+    public GridNode? GetNode(int x, int y) 
+    {
+        if(x < 0 || x >= gridSettings.GridSizeX || y < 0  || y >= gridSettings.GridSizeY)
+        {
+            return null ;
+        }
+        
+        return gridNodes[x,y];
+            
+        
+    }
+
 }
