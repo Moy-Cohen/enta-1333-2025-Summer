@@ -65,7 +65,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public GridNode? GetNode(int x, int y) 
+    public GridNode GetNode(int x, int y) 
     {
         if(x < 0 || x >= gridSettings.GridSizeX || y < 0  || y >= gridSettings.GridSizeY)
         {
@@ -77,7 +77,7 @@ public class GridManager : MonoBehaviour
         
     }
 
-    public GridNode? GetNodeFromWorldPosition(Vector3 position)
+    public GridNode GetNodeFromWorldPosition(Vector3 position)
     {
         //Determine which axes to use baedon grid orientation 
         int x = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.x / gridSettings.NodeSize) : Mathf.RoundToInt(position.x / gridSettings.NodeSize);
