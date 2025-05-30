@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
 
     /*private void Start()
     {
-        *//*Vector2Int start = new Vector2Int(0, 0);
+        Vector2Int start = new Vector2Int(0, 0);
         Vector2Int goal = new Vector2Int(9, 9);
-        pathfinder.FindPath(start, goal);*//*
+        pathfinder.FindPath(start, goal);
     }*/
 }

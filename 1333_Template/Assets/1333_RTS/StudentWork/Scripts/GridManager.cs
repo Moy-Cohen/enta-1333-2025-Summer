@@ -46,6 +46,7 @@ public class GridManager : MonoBehaviour
                 };
                 allNodes.Add(node);
                 gridNodes[x, y] = node;
+                //Debug.Log("GridReady");
             }
         }
     }

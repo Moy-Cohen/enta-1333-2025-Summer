@@ -20,9 +20,9 @@ public class PathfindingManager : MonoBehaviour
         aStar = new AStarPathfinding();
         aStar.Initialize(gridManager);
     }
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => gridManager.IsInitialized);
+        
         
         
 
@@ -34,6 +34,7 @@ public class PathfindingManager : MonoBehaviour
     {
         if (rerollOnR && Input.GetKeyDown(KeyCode.R))
         {
+            gridManager.InitializedGrid();
             PickRandomStartEnd();
             FindPath();
         }
@@ -62,20 +63,27 @@ public class PathfindingManager : MonoBehaviour
         if (currentPath == null)
         {
             Debug.LogWarning("No Path Found");
+            /*gridManager.InitializedGrid();
+            PickRandomStartEnd();
+            FindPath();*/
         }
+        currentPath = aStar.DebugPath;
     }
 
     void OnDrawGizmos()
     {
-        if (currentPath == null || currentPath.Count == 0 || gridManager == null) return;
-
+        if (gridManager == null) return; 
         float size = gridManager.GridSettings.NodeSize * 0.3f;
-
         Gizmos.color = Color.white;
-        Gizmos.DrawCube(currentPath[0].WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
+        Gizmos.DrawCube(startNode.WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
 
         Gizmos.color = Color.black;
-        Gizmos.DrawCube(currentPath[^1].WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
+        Gizmos.DrawCube(endNode.WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
+        if (currentPath == null || currentPath.Count == 0) return;
+
+        
+
+        
 
 
         Gizmos.color = Color.cyan;

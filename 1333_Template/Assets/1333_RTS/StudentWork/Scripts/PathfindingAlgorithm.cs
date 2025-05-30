@@ -17,5 +17,5 @@ public abstract class PathfindingAlgorithm
 
 
 
-    public abstract List<GridNode> Findpath(Vector3 start, Vector3 end);
+    /*public abstract List<GridNode> Findpath(Vector3 start, Vector3 end);*/
 }

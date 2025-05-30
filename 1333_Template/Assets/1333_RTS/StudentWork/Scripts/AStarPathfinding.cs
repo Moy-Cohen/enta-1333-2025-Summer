@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using JetBrains.Annotations;
 using Unity.Hierarchy;
 using UnityEditor.TerrainTools;
@@ -12,14 +13,18 @@ public class AStarPathfinding : PathfindingAlgorithm
     private GridManager gridManager;
     private List<GridNode> debugPath;
 
+    public List<GridNode> DebugPath => debugPath;
+
     public void Initialize(GridManager gridManager)
     {
         this.gridManager = gridManager;
+        
     }
 
     public override List<GridNode> Findpath(GridNode start, GridNode end)
     {
-        foreach (GridNode n in gridManager.AllNodes)
+        debugPath = new List<GridNode>();
+        foreach (GridNode n in debugPath)
         {
             n.GCost = int.MaxValue;
             n.HCost = 0;
@@ -45,7 +50,9 @@ public class AStarPathfinding : PathfindingAlgorithm
             if (currentNode == end)
             {
                 debugPath = ReconstructPath(end);
+                Debug.Log("Path finished");
                 return debugPath;
+                
             }
 
             //Move the current node to the visited nodes list 
@@ -74,26 +81,31 @@ public class AStarPathfinding : PathfindingAlgorithm
 
             }
         }
+        if (debugPath == null)
+        {
+            Debug.LogWarning("Path not Found");
 
-        Debug.LogWarning("No Path Found");
-        debugPath = null;
-        return null;
+            return null;
+        }
+        return debugPath;
+
+        
     }
 
 
 
-    public override List<GridNode> Findpath(Vector3 startWorld, Vector3 endWorld)
+    /*public override List<GridNode> Findpath(Vector3 startWorld, Vector3 endWorld)
     {
         GridNode start = gridManager.GetNodeFromWorldPosition(startWorld);
         GridNode end = gridManager.GetNodeFromWorldPosition(endWorld);
         return null;
-    }
+    }*/
 
     private int GetHeuristicCost(GridNode a, GridNode b)
     {
         int dx = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.x - b.WorldPosition.x));
         int dz = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.z - b.WorldPosition.z));
-        return 10 * (dx + dz);
+        return  (dx + dz);
     }
 
     private GridNode GetLowestFCostNode(List<GridNode> nodes)
@@ -116,12 +128,7 @@ public class AStarPathfinding : PathfindingAlgorithm
         return lowest;
     }
 
-    /*private int GetDistance(GridNode a, GridNode b)
-    {
-        int dx = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.x - b.WorldPosition.x));
-        int dz = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.z - b.WorldPosition.z));
-        return 10 * (dx + dz);
-    }*/
+    
 
     private List<GridNode> ReconstructPath(GridNode endNode)
     {
@@ -138,19 +145,7 @@ public class AStarPathfinding : PathfindingAlgorithm
         return path;
     }
 
-    /*private void OnDrawGizmos()
-    {
-        if (debugPath == null)
-        {
-            return;
-        }
-        Gizmos.color = Color.cyan;
-        float size = gridManager.GridSettings.NodeSize * 0.3f;
-        foreach (var n in debugPath)
-        {
-            Gizmos.DrawCube(n.WorldPosition + Vector3.up * 0.01f, Vector3.one * size);
-        }
-    }*/
+    
 
 
 }
