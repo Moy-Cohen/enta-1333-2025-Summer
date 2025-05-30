@@ -150,7 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridManager: {fileID: 1931288774}
   unitManager: {fileID: 1841333209}
-  pathfinder: {fileID: 2093278443}
 --- !u!4 &175604805
 Transform:
   m_ObjectHideFlags: 0
@@ -876,7 +875,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2093278444}
-  - component: {fileID: 2093278443}
   m_Layer: 0
   m_Name: Pathfinder
   m_TagString: Untagged
@@ -884,19 +882,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2093278443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2093278442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8986f5cf8dc9e7e4c9beb68607337d4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1931288774}
 --- !u!4 &2093278444
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,8 @@ public class GridManager : MonoBehaviour
     private GridNode[,] gridNodes;
 
     [Header("Debug for editor plymode only")]
-    [SerializeField] private List<GridNode> AllNodes = new();
+    [SerializeField] private List<GridNode> allNodes = new();
+    public List<GridNode> AllNodes => allNodes;
 
     public bool IsInitialized { get; private set; } = false;
 
@@ -37,11 +38,13 @@ public class GridManager : MonoBehaviour
                     Name = $"{terrain.TerrainName}_{x}_{y}",
                     WorldPosition = worldPos,
                     terrainType = terrain,
-                    walkable = true,
-                    Weight = 1,
+                    walkable = terrain.Walkable,
+                    Weight = terrain.MovementCost,
+                    X = x,
+                    Y = y,
 
                 };
-                AllNodes.Add(node);
+                allNodes.Add(node);
                 gridNodes[x, y] = node;
             }
         }
@@ -87,6 +90,34 @@ public class GridManager : MonoBehaviour
         y = Mathf.Clamp(y, 0, gridSettings.GridSizeY - 1);
         //Return the node at the clamped coordinates.
         return GetNode(x,y);
+    }
+
+    public List<GridNode> GetNeighbors(GridNode node)
+    {
+        List<GridNode> neighbors = new List<GridNode>();
+
+        // 4 Directional Movements (Up, Right. Down, Left)
+        Vector2Int[] directions = new Vector2Int[]
+        {
+            new Vector2Int(0,1),  //Up
+            new Vector2Int(1,0),  //Right
+            new Vector2Int(0,-1), //Down
+            new Vector2Int(-1,0), //Left
+        };
+
+        foreach (Vector2Int dir in directions)
+        {
+            int nx = node.X + dir.x;
+            int ny = node.Y + dir.y;
+
+            GridNode neighbor = GetNode(nx, ny);
+
+            if (neighbor != null && neighbor.walkable)
+            {
+                neighbors.Add(neighbor);
+            } 
+        }
+        return neighbors;
     }
 
 }

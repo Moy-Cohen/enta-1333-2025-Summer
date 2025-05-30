@@ -12,6 +12,9 @@ public class GridNode
     public int Weight;
     public TerrainType terrainType;
     public GridNode CameFromNode;
+
+    public int X;
+    public int Y;
     public Color GizmoColor => terrainType != null
                                 ? terrainType.GizmoColor
                                 :Color.white;
