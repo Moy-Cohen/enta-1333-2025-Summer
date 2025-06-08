@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
+using NUnit;
 using Unity.Hierarchy;
 using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.XR;
 
-public class AStarPathfinding : PathfindingAlgorithm
+public class AStarPathfinding : PathFindingAlgorithm
 {
     private GridManager gridManager;
-    private List<GridNode> debugPath;
+    public GridManager _GridManager => gridManager;
+    
+    public List<GridNode> debugPath;
 
     public List<GridNode> DebugPath => debugPath;
 
@@ -23,12 +26,13 @@ public class AStarPathfinding : PathfindingAlgorithm
 
     public override List<GridNode> Findpath(GridNode start, GridNode end)
     {
+
         debugPath = new List<GridNode>();
-        foreach (GridNode n in debugPath)
+        foreach (GridNode node in gridManager.AllNodes)
         {
-            n.GCost = int.MaxValue;
-            n.HCost = 0;
-            n.CameFromNode = null;
+            node.GCost = int.MaxValue;
+            node.HCost = 0;
+            node.CameFromNode = null;
         }
 
 
@@ -49,10 +53,9 @@ public class AStarPathfinding : PathfindingAlgorithm
             // If reachd the goal, build the path
             if (currentNode == end)
             {
+                //Debug.Log("Path finished");
                 debugPath = ReconstructPath(end);
-                Debug.Log("Path finished");
                 return debugPath;
-                
             }
 
             //Move the current node to the visited nodes list 
@@ -68,6 +71,8 @@ public class AStarPathfinding : PathfindingAlgorithm
                 }
                 int tentativeGCost = currentNode.GCost + neighbor.Weight;
 
+                //Debug.Log("testing " + neighbor.X + "] , [" + neighbor.Y + "]");
+
                 if (tentativeGCost < neighbor.GCost || !pendingNodes.Contains(neighbor)) {
                     neighbor.GCost = tentativeGCost;
                     neighbor.HCost = GetHeuristicCost(neighbor, end);
@@ -81,6 +86,8 @@ public class AStarPathfinding : PathfindingAlgorithm
 
             }
         }
+
+
         if (debugPath == null)
         {
             Debug.LogWarning("Path not Found");
@@ -105,6 +112,7 @@ public class AStarPathfinding : PathfindingAlgorithm
     {
         int dx = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.x - b.WorldPosition.x));
         int dz = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.z - b.WorldPosition.z));
+
         return  (dx + dz);
     }
 
@@ -134,6 +142,8 @@ public class AStarPathfinding : PathfindingAlgorithm
     {
         List<GridNode> path = new List<GridNode>();
         GridNode current = endNode;
+
+        //Debug.Log("Current has changed to [" + current.X + "] , [" + current.Y + "]");
 
         while (current != null)
         {

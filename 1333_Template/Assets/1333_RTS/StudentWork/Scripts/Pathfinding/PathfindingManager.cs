@@ -35,6 +35,14 @@ public class PathfindingManager : MonoBehaviour
         if (rerollOnR && Input.GetKeyDown(KeyCode.R))
         {
             gridManager.InitializedGrid();
+            for(int x = 0 ; x < gridManager.GridSettings.GridSizeX; x++)
+            {
+                for (int y = 0; y < gridManager.GridSettings.GridSizeY; y++)
+                {
+                    GridNode node = gridManager.GetNode(x, y);
+                    node.AssignNeighbors(gridManager.GetAllNodes(), new Vector2Int(gridManager.GridSettings.GridSizeX, gridManager.GridSettings.GridSizeY));
+                }
+            }
             PickRandomStartEnd();
             FindPath();
         }
@@ -67,7 +75,8 @@ public class PathfindingManager : MonoBehaviour
             PickRandomStartEnd();
             FindPath();*/
         }
-        currentPath = aStar.DebugPath;
+
+        currentPath = aStar.debugPath;
     }
 
     void OnDrawGizmos()

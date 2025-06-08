@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b503d5d7f2f2764c869ee8fbb67f312, type: 3}
-  m_Name: Spearman
+  m_Name: Archer
   m_EditorClassIdentifier: 
   width: 1
   height: 1
-  maxHp: 20
+  maxHp: 15
   moveSpeed: 1
   damage: 5
-  defense: 15
+  defense: 10
   attackType: 0
-  range: 2
+  range: 8

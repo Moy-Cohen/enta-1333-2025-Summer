@@ -4,7 +4,7 @@ using UnityEngine;
 
 //Abstarct base class for all pathfinding algorithms 
 
-public abstract class PathfindingAlgorithm
+public abstract class PathFindingAlgorithm
 {
     /*Finds a path from start to end node
     Parameters:   Start: starting node

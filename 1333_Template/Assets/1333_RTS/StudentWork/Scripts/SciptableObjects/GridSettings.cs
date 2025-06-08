@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GridSettings", menuName = "Game/GridSettings")]
+[CreateAssetMenu(fileName = "GridSettings", menuName = "ScriptableObjects/GridSettings")]
 public class GridSettings : ScriptableObject
 {
     [SerializeField] private int gridSizeX = 10;

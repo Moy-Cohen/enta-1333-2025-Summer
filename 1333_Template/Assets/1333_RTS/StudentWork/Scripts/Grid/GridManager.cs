@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +20,10 @@ public class GridManager : MonoBehaviour
 
     public bool IsInitialized { get; private set; } = false;
 
+
     public void InitializedGrid()
     {
+      allNodes.Clear();
         gridNodes = new GridNode[gridSettings.GridSizeX, gridSettings.GridSizeY];
 
         for (int x = 0; x < gridSettings.GridSizeX; x++)
@@ -44,9 +47,30 @@ public class GridManager : MonoBehaviour
                     Y = y,
 
                 };
+                
                 allNodes.Add(node);
                 gridNodes[x, y] = node;
                 //Debug.Log("GridReady");
+
+               
+            }
+        }
+
+        for (int x = 0;x < gridSettings.GridSizeX; x++)
+        {
+            for(int y = 0;y < gridSettings.GridSizeY; y++)
+            {
+                gridNodes[x,y].AssignNeighbors(gridNodes, new Vector2Int(gridSettings.GridSizeX, gridSettings.GridSizeY));
+            }
+        }
+
+        Vector2Int gridSize = new Vector2Int(gridSettings.GridSizeX, gridSettings.GridSizeY);
+
+        for (int x = 0; x < gridSettings.GridSizeX; x++)
+        {
+            for (int y = 0; y < gridSettings.GridSizeY; y++)
+            {
+                gridNodes[x, y].AssignNeighbors(gridNodes, gridSize);
             }
         }
     }
@@ -119,6 +143,11 @@ public class GridManager : MonoBehaviour
             } 
         }
         return neighbors;
+    }
+
+    public GridNode[,] GetAllNodes()
+    {
+        return gridNodes;
     }
 
 }
