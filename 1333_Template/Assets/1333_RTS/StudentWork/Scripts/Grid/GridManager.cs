@@ -12,7 +12,12 @@ public class GridManager : MonoBehaviour
 
     public GridSettings GridSettings => gridSettings;
 
+    public List<GridNode> Path = new List<GridNode>();
+    public HashSet<GridNode> Visited = new HashSet<GridNode>();
+    public List<GridNode> Front = new List<GridNode>();
+
     private GridNode[,] gridNodes;
+    
 
     [Header("Debug for editor plymode only")]
     [SerializeField] private List<GridNode> allNodes = new();
@@ -23,7 +28,7 @@ public class GridManager : MonoBehaviour
 
     public void InitializedGrid()
     {
-      allNodes.Clear();
+        allNodes.Clear();
         gridNodes = new GridNode[gridSettings.GridSizeX, gridSettings.GridSizeY];
 
         for (int x = 0; x < gridSettings.GridSizeX; x++)
@@ -56,24 +61,28 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        for (int x = 0;x < gridSettings.GridSizeX; x++)
-        {
-            for(int y = 0;y < gridSettings.GridSizeY; y++)
-            {
-                gridNodes[x,y].AssignNeighbors(gridNodes, new Vector2Int(gridSettings.GridSizeX, gridSettings.GridSizeY));
-            }
-        }
-
-        Vector2Int gridSize = new Vector2Int(gridSettings.GridSizeX, gridSettings.GridSizeY);
-
-        for (int x = 0; x < gridSettings.GridSizeX; x++)
-        {
-            for (int y = 0; y < gridSettings.GridSizeY; y++)
-            {
-                gridNodes[x, y].AssignNeighbors(gridNodes, gridSize);
-            }
-        }
+        IsInitialized = true;
+        
     }
+
+
+    public GridNode GetNode(int x, int y)
+    {
+        if (x >= 0 && x < gridSettings.GridSizeX && y >= 0 && y < gridSettings.GridSizeY)
+        {
+            return gridNodes[x, y];
+        }
+
+        return null;
+    }
+
+    public void SetWalkable(int x, int y, bool isWalkable)
+    {
+        GridNode node = gridNodes[x, y];
+        node.walkable = isWalkable;
+        gridNodes[x, y] = node;
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -93,61 +102,50 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public GridNode GetNode(int x, int y) 
-    {
-        if(x < 0 || x >= gridSettings.GridSizeX || y < 0  || y >= gridSettings.GridSizeY)
-        {
-            return null ;
-        }
-        
-        return gridNodes[x,y];
-            
-        
-    }
 
-    public GridNode GetNodeFromWorldPosition(Vector3 position)
-    {
-        //Determine which axes to use baedon grid orientation 
-        int x = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.x / gridSettings.NodeSize) : Mathf.RoundToInt(position.x / gridSettings.NodeSize);
-        int y = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.z / gridSettings.NodeSize) : Mathf.RoundToInt(position.y / gridSettings.NodeSize);
-        //Clamp coordinates to grid bounds.
-        x = Mathf.Clamp(x, 0, gridSettings.GridSizeX - 1);
-        y = Mathf.Clamp(y, 0, gridSettings.GridSizeY - 1);
-        //Return the node at the clamped coordinates.
-        return GetNode(x,y);
-    }
+
+
 
     public List<GridNode> GetNeighbors(GridNode node)
     {
         List<GridNode> neighbors = new List<GridNode>();
+        Vector3 pos = node.WorldPosition;
 
-        // 4 Directional Movements (Up, Right. Down, Left)
-        Vector2Int[] directions = new Vector2Int[]
+        int x = Mathf.RoundToInt(pos.x / GridSettings.NodeSize);
+        int y = Mathf.RoundToInt(pos.y / GridSettings.NodeSize);
+
+        int[,] directions = new int[,]
         {
-            new Vector2Int(0,1),  //Up
-            new Vector2Int(1,0),  //Right
-            new Vector2Int(0,-1), //Down
-            new Vector2Int(-1,0), //Left
+            { 0, 1 },
+            { 1, 0 },
+            { 0, -1 },
+            { -1, 0 }
         };
 
-        foreach (Vector2Int dir in directions)
+        for (int i = 0; i < directions.GetLength(0); i++)
         {
-            int nx = node.X + dir.x;
-            int ny = node.Y + dir.y;
-
-            GridNode neighbor = GetNode(nx, ny);
-
+            GridNode neighbor = GetNode(x + directions[i, 0], y + directions[i, 1]);
             if (neighbor != null && neighbor.walkable)
             {
                 neighbors.Add(neighbor);
-            } 
+            }
         }
         return neighbors;
     }
 
-    public GridNode[,] GetAllNodes()
+
+
+    public GridNode GetNodeFromWorldPosition(Vector3 position)
     {
-        return gridNodes;
+        int x = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.x / GridSettings.NodeSize) : Mathf.RoundToInt(position.x / gridSettings.NodeSize);
+        int y = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.z / GridSettings.NodeSize) : Mathf.RoundToInt(position.z / gridSettings.NodeSize);
+
+        x = Mathf.Clamp(x, 0, gridSettings.GridSizeX - 1);
+        y = Mathf.Clamp(y, 0, gridSettings.GridSizeY - 1);
+
+        return GetNode(x, y);
     }
+
+    
 
 }

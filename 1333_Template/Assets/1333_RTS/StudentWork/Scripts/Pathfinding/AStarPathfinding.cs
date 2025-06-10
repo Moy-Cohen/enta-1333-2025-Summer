@@ -14,144 +14,104 @@ public class AStarPathfinding : PathFindingAlgorithm
     private GridManager gridManager;
     public GridManager _GridManager => gridManager;
     
-    public List<GridNode> debugPath;
-
-    public List<GridNode> DebugPath => debugPath;
-
-    public void Initialize(GridManager gridManager)
+    public AStarPathfinding (GridManager grid)
     {
-        this.gridManager = gridManager;
-        
+        gridManager = grid;
     }
 
     public override List<GridNode> Findpath(GridNode start, GridNode end)
     {
 
-        debugPath = new List<GridNode>();
-        foreach (GridNode node in gridManager.AllNodes)
-        {
-            node.GCost = int.MaxValue;
-            node.HCost = 0;
-            node.CameFromNode = null;
-        }
-
-
-        List<GridNode> pendingNodes = new List<GridNode>();
-        HashSet<GridNode> visitedNodes = new HashSet<GridNode>();
+        List<GridNode> openSet = new List<GridNode>();
+        HashSet<GridNode> closedSet = new HashSet<GridNode>();
+        gridManager.Front.Clear();
+        gridManager.Visited.Clear();
+        gridManager.Path.Clear();
+        
+        openSet.Add(start);
+        gridManager.Front.Add(start);
 
         start.GCost = 0;
-        start.HCost = GetHeuristicCost(start, end);
-        start.CameFromNode = null;
-
-        pendingNodes.Add(start);
-
-        while (pendingNodes.Count > 0)
-        {
-            // Get the node with the lowest FCost
-            GridNode currentNode = GetLowestFCostNode(pendingNodes);
-
-            // If reachd the goal, build the path
-            if (currentNode == end)
-            {
-                //Debug.Log("Path finished");
-                debugPath = ReconstructPath(end);
-                return debugPath;
-            }
-
-            //Move the current node to the visited nodes list 
-            pendingNodes.Remove(currentNode);
-            visitedNodes.Add(currentNode);
-
-            //Check neighbors
-            foreach (GridNode neighbor in gridManager.GetNeighbors(currentNode))
-            {
-                if(!neighbor.walkable || visitedNodes.Contains(neighbor))
-                {
-                    continue;
-                }
-                int tentativeGCost = currentNode.GCost + neighbor.Weight;
-
-                //Debug.Log("testing " + neighbor.X + "] , [" + neighbor.Y + "]");
-
-                if (tentativeGCost < neighbor.GCost || !pendingNodes.Contains(neighbor)) {
-                    neighbor.GCost = tentativeGCost;
-                    neighbor.HCost = GetHeuristicCost(neighbor, end);
-                    neighbor.CameFromNode = currentNode;
-
-                    if (!pendingNodes.Contains(neighbor))
-                    {
-                        pendingNodes.Add(neighbor);
-                    }
-                }
-
-            }
-        }
-
-
-        if (debugPath == null)
-        {
-            Debug.LogWarning("Path not Found");
-
-            return null;
-        }
-        return debugPath;
-
+        start.HCost = GetHeuristic(start, end);
+        start.Parent = null;
         
-    }
-
-
-
-    /*public override List<GridNode> Findpath(Vector3 startWorld, Vector3 endWorld)
-    {
-        GridNode start = gridManager.GetNodeFromWorldPosition(startWorld);
-        GridNode end = gridManager.GetNodeFromWorldPosition(endWorld);
-        return null;
-    }*/
-
-    private int GetHeuristicCost(GridNode a, GridNode b)
-    {
-        int dx = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.x - b.WorldPosition.x));
-        int dz = Mathf.Abs(Mathf.RoundToInt(a.WorldPosition.z - b.WorldPosition.z));
-
-        return  (dx + dz);
-    }
-
-    private GridNode GetLowestFCostNode(List<GridNode> nodes)
-    {
-
-        if (nodes == null || nodes.Count == 0)
+        while (openSet.Count > 0)
         {
-            Debug.LogWarning("List is empty");
-            return null;
+            GridNode current = GetLowestFCost(openSet);
+            openSet.Remove(current);
+            gridManager.Front.Remove(current);
+            closedSet.Add(current);
+            gridManager.Visited.Add(current);
+
+            if(current == end)
+            {
+                return ReconstructPath(start, end);
+            }
+            foreach (GridNode neighbor in gridManager.GetNeighbors(current))
+            {
+                if (closedSet.Contains(neighbor)) continue;
+                int tentativeGCost = current.GCost + neighbor.Weight;
+                if (!openSet.Contains(neighbor))
+                {
+                    neighbor.GCost = tentativeGCost;
+                    neighbor.HCost = GetHeuristic(neighbor, end);
+                    neighbor.Parent = current;
+
+                    openSet.Add(neighbor);
+                    gridManager.Front.Add(neighbor);
+                }
+                else if(tentativeGCost < neighbor.GCost)
+                {
+                    neighbor.GCost = tentativeGCost;
+                    neighbor.Parent = current;
+                }
+            }
         }
+        return null;
+    }
+
+
+
+    public override List<GridNode> Findpath(Vector3 startWorld, Vector3 endWorld)
+    {
+        return Findpath(gridManager.GetNodeFromWorldPosition(startWorld), gridManager.GetNodeFromWorldPosition(endWorld));
+    }
+
+    private int GetHeuristic(GridNode a, GridNode b)
+    {
+        Vector2 posA = new Vector2(a.WorldPosition.x, a.WorldPosition.z);
+        Vector2 posB = new Vector2(b.WorldPosition.x, b.WorldPosition.z);
+        return Mathf.RoundToInt(Vector2.Distance(posA, posB));
+    }
+
+    private GridNode GetLowestFCost(List<GridNode> nodes)
+    {
         GridNode lowest = nodes[0];
-        foreach (var node in nodes)
+        foreach (var node  in nodes)
         {
-            if (node.FCost  < lowest.FCost || (node.FCost == lowest.FCost && node.HCost < lowest.HCost))
+            if (node.FCost < lowest.FCost || (node.FCost == lowest.FCost && node.HCost < lowest.HCost))
             {
                 lowest = node;
             }
         }
-
         return lowest;
     }
 
     
 
-    private List<GridNode> ReconstructPath(GridNode endNode)
+    private List<GridNode> ReconstructPath(GridNode startNode, GridNode endNode)
     {
-        List<GridNode> path = new List<GridNode>();
+        List<GridNode> path =  new List<GridNode>();
         GridNode current = endNode;
-
-        //Debug.Log("Current has changed to [" + current.X + "] , [" + current.Y + "]");
-
-        while (current != null)
+        while (current != startNode)
         {
             path.Add(current);
-            current = current.CameFromNode;
+            current = current.Parent;
         }
-
+        path.Add(startNode);
         path.Reverse();
+
+        gridManager.Path = path;
         return path;
     }
 

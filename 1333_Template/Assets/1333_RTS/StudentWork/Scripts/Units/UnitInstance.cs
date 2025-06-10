@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.VFX;
@@ -64,36 +65,44 @@ public class UnitInstance : UnitBase
             Debug.LogError($"[SetTarget] Pathfinder is NULL for {name}");
             return;
         }
+        transform.position = _aStar._GridManager.GetNodeFromWorldPosition(transform.position).WorldPosition;
+        _currentPath = _aStar.Findpath(transform.position, worldPosition);
+        if (_currentPath == null )
+        {
+            Debug.LogError($"[SetTarget] {name} path is NULL.");
+            return;
+        }
+        if (_currentPath.Count <= 1)
+        {
+            Debug.LogWarning($"[SetTarget] {name} path too short. Count = {_currentPath.Count}");
+            return;
+        }
 
-        
-    }
+        _pathIndex = 0;
+        _targetPosition = worldPosition;
+        _isMoving = true;
+        Debug.Log($"[SetTarget] {name} path assigned with {_currentPath.Count} nodes");
 
-    public  void SetTarget()
+        for (int i = 0; i < _currentPath.Count - 1;  i++)
+        {
+            Debug.DrawLine(
+                _currentPath[i].WorldPosition + Vector3.up * 1f,
+                _currentPath[i + 1].WorldPosition + Vector3.up * 1f,
+                Color.cyan, 5f
+            );
+        }
+    } 
+    
+
+    public  void SetTarget(GridNode node)
     {
-
+        SetTarget(node.WorldPosition);
     }
 
 
     public override void MoveToTarget(GridNode targetNode)
     {
-
+        SetTarget(targetNode);
     }
-    /*[Header("Prefab Stuff")]
-    private Transform _animatorParent;
-    [SerializeField] private ParticleSystem _hurtParticles;
-
-    private GameObject _animatedUnit;
-    private PathfindingManager _pathfinder;
-    private Animator _characterAnimator;
-    private List<GridNode> _currentPath = new();
-    private int pathIndex = 0;
-    private Vector3? _targetedWorldPosition = null;
-    private bool _isMoving = false;
-
-    public bool IsMoving => _isMoving;
-    public void Initialize(PathfindingManager pathfinder, UnitType unitType)
-    {
-        _pathfinder = pathfinder;
-        _unitType = unitType;
-    }*/
+    
 }

@@ -2,107 +2,100 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(LineRenderer))]
 public class PathfindingManager : MonoBehaviour
 {
     [SerializeField] private GridManager gridManager;
 
     private AStarPathfinding aStar;
-    private List<GridNode> currentPath;
-
-    public GridNode startNode;
-    public GridNode endNode;
-
-    [SerializeField] private bool rerollOnR = true;
+    private LineRenderer lineRenderer;
+    private GridNode startNode;
+    private GridNode endNode;
 
 
-    private void Awake()
-    {
-        aStar = new AStarPathfinding();
-        aStar.Initialize(gridManager);
-    }
     private void Start()
     {
-        
-        
-        
+        aStar = new AStarPathfinding(gridManager);
+        lineRenderer = GetComponent<LineRenderer>();
 
-        PickRandomStartEnd();
-        FindPath();
+        lineRenderer.positionCount = 0;
+        lineRenderer.startWidth = 0.2f;
+        lineRenderer.endWidth = 0.2f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.yellow;
+        lineRenderer.endColor = Color.black;
     }
 
     private void Update()
     {
-        if (rerollOnR && Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             gridManager.InitializedGrid();
-            for(int x = 0 ; x < gridManager.GridSettings.GridSizeX; x++)
+            lineRenderer.positionCount = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (gridManager.IsInitialized)
             {
-                for (int y = 0; y < gridManager.GridSettings.GridSizeY; y++)
-                {
-                    GridNode node = gridManager.GetNode(x, y);
-                    node.AssignNeighbors(gridManager.GetAllNodes(), new Vector2Int(gridManager.GridSettings.GridSizeX, gridManager.GridSettings.GridSizeY));
-                }
+                PickRandomStartEnd();
+                List<GridNode> path = aStar.Findpath(startNode, endNode);
+                DrawPath(path);
+                Debug.Log($"Pathfinding from {startNode.Name} to {endNode.Name}");
             }
-            PickRandomStartEnd();
-            FindPath();
         }
     }
 
     private void PickRandomStartEnd()
     {
-        List<GridNode> walkable = gridManager.AllNodes.FindAll(n => n.walkable);
-
-        if (walkable.Count < 2)
+        List<GridNode> walkables = new List<GridNode>();
+        for(int x = 0; x < gridManager.GridSettings.GridSizeX; x++)
         {
-            Debug.LogWarning("Need at least TWO walkable tiles");
+            for (int y = 0; y < gridManager.GridSettings.GridSizeY; y++)
+            {
+                GridNode node = gridManager.GetNode(x, y);
+                if (node != null && node.walkable)
+                {
+                    walkables.Add(node);
+                } 
+            }
+        }
+
+        if (walkables.Count < 2)
+        {
+            Debug.LogWarning("Not enough walkable nodes to select start and end.");
             return;
         }
-        startNode = walkable[Random.Range(0, walkable.Count)];
-        do
-        {
-            endNode = walkable[Random.Range(0, walkable.Count)];
-        } while (endNode == startNode);
-    }
+        startNode = walkables[Random.Range(0, walkables.Count)];
+        endNode = walkables[Random.Range(0, walkables.Count)];
 
-
-    public void FindPath()
-    {
-        currentPath = aStar.Findpath(startNode, endNode);
-        if (currentPath == null)
+        while (endNode == startNode)
         {
-            Debug.LogWarning("No Path Found");
-            /*gridManager.InitializedGrid();
-            PickRandomStartEnd();
-            FindPath();*/
+            endNode = walkables[Random.Range(0, walkables.Count)];
+
         }
 
-        currentPath = aStar.debugPath;
     }
 
-    void OnDrawGizmos()
+
+    public void DrawPath(List<GridNode> path)
     {
-        if (gridManager == null) return; 
-        float size = gridManager.GridSettings.NodeSize * 0.3f;
-        Gizmos.color = Color.white;
-        Gizmos.DrawCube(startNode.WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
-
-        Gizmos.color = Color.black;
-        Gizmos.DrawCube(endNode.WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
-        if (currentPath == null || currentPath.Count == 0) return;
-
-        
-
-        
-
-
-        Gizmos.color = Color.cyan;
-        for (int i = 1;  i < currentPath.Count-1; i++)
+        if (path == null || path.Count == 0)
         {
-            GridNode n = currentPath[i];
-            Gizmos.DrawCube(n.WorldPosition + Vector3.up * 0.05f, Vector3.one * size);
-            Gizmos.DrawLine(currentPath[i-1].WorldPosition, n.WorldPosition);
+            lineRenderer.positionCount = 0;
+            Debug.Log("No path found.");
+            return;
         }
+        lineRenderer.positionCount = path.Count;
+        int totalCost = 0;
 
-        Gizmos.DrawLine(currentPath[^2].WorldPosition, currentPath[^1].WorldPosition);
+        for (int i = 0; i < path.Count; i++)
+        {
+            lineRenderer.SetPosition(i, path[i].WorldPosition + Vector3.up * 0.1f);
+            totalCost += path[i].Weight;
+        }
+        Debug.Log($"Path length: {path.Count}, Total movement cost: {totalCost}");
     }
+
+    
 }

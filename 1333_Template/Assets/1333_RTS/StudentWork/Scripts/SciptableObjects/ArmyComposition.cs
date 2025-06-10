@@ -13,5 +13,5 @@ public class ArmyComposition : ScriptableObject
 
     }
 
-    public List<UnitEntry> Units = new List<UnitEntry>();
+    public List<UnitEntry> units = new List<UnitEntry>();
 }
