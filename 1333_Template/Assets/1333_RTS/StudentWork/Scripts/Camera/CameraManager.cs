@@ -46,12 +46,12 @@ public class CameraManager : MonoBehaviour
 
         transform.position = cameraPos;
 
-        if (Input.GetMouseButton(0))
+        /*if (Input.GetMouseButton(0))
         {
             transform.Rotate(new Vector3(Input.GetAxis("Mouse Y") * RotateSpeed, -Input.GetAxis("Mouse X") * RotateSpeed, 0 ));
             RotationX = transform.rotation.eulerAngles.x;
             RotationY = transform.rotation.eulerAngles.y;
             transform.rotation = Quaternion.Euler(RotationX, RotationY, 0);
-        }
+        }*/
     }
 }
