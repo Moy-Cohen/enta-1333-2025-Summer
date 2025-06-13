@@ -27,5 +27,7 @@ public class GridNode
 
     public GridNode Parent;
 
+    public bool Occupied = false;
+
     
 }

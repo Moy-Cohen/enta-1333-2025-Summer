@@ -111,8 +111,8 @@ public class GridManager : MonoBehaviour
         List<GridNode> neighbors = new List<GridNode>();
         Vector3 pos = node.WorldPosition;
 
-        int x = Mathf.RoundToInt(pos.x / GridSettings.NodeSize);
-        int y = Mathf.RoundToInt(pos.y / GridSettings.NodeSize);
+        int x = Mathf.RoundToInt(pos.x / gridSettings.NodeSize);
+        int y = Mathf.RoundToInt(pos.y / gridSettings.NodeSize);
 
         int[,] directions = new int[,]
         {
@@ -137,8 +137,8 @@ public class GridManager : MonoBehaviour
 
     public GridNode GetNodeFromWorldPosition(Vector3 position)
     {
-        int x = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.x / GridSettings.NodeSize) : Mathf.RoundToInt(position.x / gridSettings.NodeSize);
-        int y = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.z / GridSettings.NodeSize) : Mathf.RoundToInt(position.z / gridSettings.NodeSize);
+        int x = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.x / gridSettings.NodeSize) : Mathf.RoundToInt(position.x / gridSettings.NodeSize);
+        int y = gridSettings.UseXZPlane ? Mathf.RoundToInt(position.z / gridSettings.NodeSize) : Mathf.RoundToInt(position.z / gridSettings.NodeSize);
 
         x = Mathf.Clamp(x, 0, gridSettings.GridSizeX - 1);
         y = Mathf.Clamp(y, 0, gridSettings.GridSizeY - 1);
@@ -146,6 +146,16 @@ public class GridManager : MonoBehaviour
         return GetNode(x, y);
     }
 
-    
+    public Vector3 ClampWorldToGrid(Vector3 worldPos)
+    {
+        float nodeSize = gridSettings.NodeSize;
+        int maxX = gridSettings.GridSizeX - 1;
+        int maxY = gridSettings.GridSizeY - 1;
+
+        float clampedX = Mathf.Clamp(worldPos.x, 0, maxX * nodeSize);
+        float clampedZ = Mathf.Clamp(worldPos.z, 0, maxY * nodeSize);
+
+        return new Vector3(clampedX, worldPos.y, clampedZ);
+    }
 
 }

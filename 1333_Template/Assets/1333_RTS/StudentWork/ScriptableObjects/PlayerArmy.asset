@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4edbda30ed1c7f3498639e4dd60e1894, type: 3}
   m_Name: PlayerArmy
   m_EditorClassIdentifier: 
-  units: []
+  units:
+  - unitTypePrefab:
+      UnitType: {fileID: 11400000, guid: 2d1839356b441d548ab06141e24947cf, type: 2}
+      Prefab: {fileID: 2438887090823669965, guid: d39878f740a62b145b4ba2975736b5c8, type: 3}
+    UnitCount: 3
+  - unitTypePrefab:
+      UnitType: {fileID: 11400000, guid: 86cc7540ba9208345b3630019c4ecc1c, type: 2}
+      Prefab: {fileID: 7570960821517519288, guid: 85f523d0c22a8814ebd52fc36bbd47b9, type: 3}
+    UnitCount: 5
