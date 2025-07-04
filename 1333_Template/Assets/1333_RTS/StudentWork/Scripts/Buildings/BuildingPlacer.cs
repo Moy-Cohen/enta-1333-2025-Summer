@@ -65,7 +65,7 @@ public class BuildingPlacer : MonoBehaviour
                 GridNode occNode = _gridManager.GetNodeFromWorldPosition(checkPos);
                 if (occNode != null)
                 {
-                    occNode.Occupied = true;
+                    occNode.IsOccupied = true;
                     Debug.Log($"[Placer] Marked node at {occNode.WorldPosition} as occupied");
                 }
             }
@@ -190,7 +190,7 @@ public class BuildingPlacer : MonoBehaviour
             {
                 Vector3 checkPos = basePos + new Vector3(dx, 0, dy);
                 GridNode checkNode = _gridManager.GetNodeFromWorldPosition(checkPos);
-                if (checkNode == null || !checkNode.walkable || checkNode.Occupied)
+                if (checkNode == null || !checkNode.IsWalkable || checkNode.IsOccupied)
                     return false;
             }
         }

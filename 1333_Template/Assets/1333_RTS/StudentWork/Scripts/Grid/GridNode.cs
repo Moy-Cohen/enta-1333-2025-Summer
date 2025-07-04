@@ -2,32 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a single cell on the grid, storing world position, pathfinding, and terrain data.
+/// </summary>
+
 // Represents each node on our grid. Brutally efficient
 [System.Serializable]
 public class GridNode 
 {
     public string Name; // Grid Index
     public Vector3 WorldPosition;
-    public bool walkable;
+    public bool IsWalkable;
     public int Weight;
-    public TerrainType terrainType;
-    public GridNode CameFromNode;
+    public TerrainType TerrainType;
+    
 
     public int X;
     public int Y;
-    public Color GizmoColor => terrainType != null
-                                ? terrainType.GizmoColor
+
+    public Color GizmoColor => TerrainType != null
+                                ? TerrainType.GizmoColor
                                 :Color.white;
 
     
-
+    // Pathfinding data
     public int GCost;
     public int HCost;
     public int FCost => GCost + HCost;
 
     public GridNode Parent;
-
-    public bool Occupied = false;
+    public GridNode CameFromNode;
+    public bool IsOccupied = false;
 
     
 }

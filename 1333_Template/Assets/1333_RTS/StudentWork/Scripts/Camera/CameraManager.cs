@@ -4,10 +4,10 @@ using UnityEngine.Rendering;
 
 public class CameraManager : MonoBehaviour
 {
-    public float PanSpeed = 20f;
+    public float PanSpeed = 10f;
     public float PanBorderThickness = 10f;
     public Vector2 PanLimit;
-    public float ScrollSpeed = 20f;
+    public float ScrollSpeed = 10f;
     public float MinY = 1f;
     public float MaxY = 20f;
     public float RotateSpeed = 20f;
@@ -18,40 +18,41 @@ public class CameraManager : MonoBehaviour
     void Update()
     {
         Vector3 cameraPos = transform.position;
-       
 
-        if (Input.GetKey(KeyCode.W) /*|| Input.mousePosition.y >= Screen.height - PanBorderThickness*/)
+        // WASD Camera Movement
+        if (Input.GetKey(KeyCode.W))
         {
             cameraPos.z += PanSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S) /*|| Input.mousePosition.y <= PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.S))
         {
             cameraPos.z -= PanSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.D) /*|| Input.mousePosition.x >= Screen.width - PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.D))
         {
             cameraPos.x += PanSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.A) /*|| Input.mousePosition.x <= PanBorderThickness*/)
+        if (Input.GetKey(KeyCode.A))
         {
             cameraPos.x -= PanSpeed * Time.deltaTime;
         }
 
+        // Mouse Wheel Zoom
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         cameraPos.y -= scroll * ScrollSpeed * 100f * Time.deltaTime;
 
+        // Clamp Position
         cameraPos.x  = Mathf.Clamp(cameraPos.x, -PanLimit.x, PanLimit.x);
         cameraPos.y = Mathf.Clamp(cameraPos.y, MinY, MaxY);
         cameraPos.z = Mathf.Clamp(cameraPos.z, -PanLimit.y, PanLimit.y);
 
         transform.position = cameraPos;
 
-        /*if (Input.GetMouseButton(0))
-        {
-            transform.Rotate(new Vector3(Input.GetAxis("Mouse Y") * RotateSpeed, -Input.GetAxis("Mouse X") * RotateSpeed, 0 ));
-            RotationX = transform.rotation.eulerAngles.x;
-            RotationY = transform.rotation.eulerAngles.y;
-            transform.rotation = Quaternion.Euler(RotationX, RotationY, 0);
-        }*/
+        // Q and E Camera Rotation
+        float rotationAmount = RotateSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.Q))
+            transform.RotateAround(transform.position, Vector3.up, -rotationAmount);
+        if (Input.GetKey(KeyCode.E))
+            transform.RotateAround(transform.position, Vector3.up, rotationAmount);
     }
 }

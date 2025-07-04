@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6b4190e6197164ca93d3e90ba48d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitType: {fileID: 11400000, guid: 86cc7540ba9208345b3630019c4ecc1c, type: 2}
-  _movespeed: 1
+  Team: 1
+  MoveSpeed: 2
+  Durability: 1
+  UnitType: {fileID: 11400000, guid: 86cc7540ba9208345b3630019c4ecc1c, type: 2}
 --- !u!65 &2113660873410350367
 BoxCollider:
   m_ObjectHideFlags: 0
