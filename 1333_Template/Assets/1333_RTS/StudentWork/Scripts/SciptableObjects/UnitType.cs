@@ -43,6 +43,9 @@ public class UnitType : ScriptableObject
     [SerializeField, Tooltip("Icon used to represent this unit in UI.")]
     private Sprite unitIcon;
 
+    [SerializeField, Tooltip("Unit model prefab")]
+    private UnitInstance prefab;
+
     public int Width => width;
     public int Height => height;
     public int MaxHp => maxHp;
@@ -54,4 +57,6 @@ public class UnitType : ScriptableObject
     public int UnitCost => unitCost;
     public float TrainingTime => trainingTime;
     public Sprite UnitIcon => unitIcon;
+    public UnitInstance Prefab => prefab;
+
 }

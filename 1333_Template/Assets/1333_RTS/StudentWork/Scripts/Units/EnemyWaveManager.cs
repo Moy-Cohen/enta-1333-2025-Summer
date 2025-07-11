@@ -29,8 +29,9 @@ public class EnemyWaveManager : MonoBehaviour
 
         for (int lane = 0; lane < height; lane++)
         {
-            Vector3 SpawnPos = GridManager.Instance.GetWolrdPosition(xPos, lane);
-            UnitInstance enemy = Instantiate(EnemyUnitPrefab, SpawnPos, Quaternion.identity);
+            Vector3 SpawnPos = GridManager.Instance.GetWorldPosition(xPos, lane);
+            Quaternion rotation = Quaternion.Euler(0, -90, 0);
+            UnitInstance enemy = Instantiate(EnemyUnitPrefab, SpawnPos, rotation);
             enemy.Team = UnitTeam.Enemy;
         }
     }

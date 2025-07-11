@@ -38,7 +38,7 @@ public class UnitInstance : MonoBehaviour
 
     private void MoveForward()
     {
-        Vector3 direction = Team == UnitTeam.Player ? Vector3.right : Vector3.left;
+        Vector3 direction = Team == UnitTeam.Player ? Vector3.back : Vector3.forward;
         transform.Translate(direction * MoveSpeed * Time.deltaTime);
     }
 
@@ -60,6 +60,11 @@ public class UnitInstance : MonoBehaviour
         {
             LaneManager.Instance.UnregisterUnit(laneIndex, this);
         }
+    }
+
+    public void Initialize(UnitType unitType)
+    {
+        
     }
 
 }

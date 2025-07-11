@@ -75,7 +75,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public Vector3 GetWolrdPosition(int x, float y)
+    public Vector3 GetWorldPosition(int x, float y)
     {
         return new Vector3(x * _gridSettings.NodeSize, 0, y * _gridSettings.NodeSize);
     }
@@ -91,7 +91,7 @@ public class GridManager : MonoBehaviour
             int laneStart = i * lanesPerBarrack;
             float centerLane = laneStart + 1;
 
-            Vector3 spawnPos = GetWolrdPosition(-1, centerLane);
+            Vector3 spawnPos = GetWorldPosition(-1, centerLane);
             Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
             GameObject barrack = Instantiate(barrackPrefab, spawnPos, rotation);
             barrack.transform.localScale = Vector3.one * 0.5f;
@@ -102,6 +102,40 @@ public class GridManager : MonoBehaviour
                 instance.controlledLanes = new int[] {laneStart,  laneStart + 1, laneStart + 2};
             }
         }
+    }
+
+    public void TryRebuildBarrack(BarrackInstance prefab, int lane)
+    {
+        BarrackInstance existing = GetBarrackInLane(lane);
+        if (existing != null) return;
+
+        int startLane = lane - (lane % 3);
+        float centerLane = startLane + 1;
+
+        Vector3 spawnPos = GetWorldPosition(-1,centerLane);
+        Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
+        GameObject barrack = Instantiate(barrackPrefab, spawnPos, rotation);
+        barrack.transform.localScale = Vector3.one * 0.5f;
+
+        BarrackInstance instance = barrack.GetComponent<BarrackInstance>();
+        if (instance != null)
+        {
+            instance.controlledLanes = new int[] {startLane, startLane + 1, startLane + 2};
+        }
+    }
+
+    public BarrackInstance GetBarrackInLane(int lane)
+    {
+        BarrackInstance[] allBarracks = FindObjectsOfType<BarrackInstance>();
+        
+        foreach(var barrack in allBarracks)
+        {
+            foreach(int l in barrack.controlledLanes)
+            {
+                if (l == lane) return barrack;
+            }
+        }
+        return null;
     }
 
 

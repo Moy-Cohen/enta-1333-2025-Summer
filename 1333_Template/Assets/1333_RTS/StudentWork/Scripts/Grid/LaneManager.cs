@@ -64,6 +64,7 @@ public class LaneManager : MonoBehaviour
         {
             if (pair.Item1 != null) pair.Item1.TakeHit();
             if(pair.Item2  != null) pair.Item2.TakeHit();
+            AudioManager.Instance.PlaySFX("UnitClash");
         }
 
         HandleBarrackDamage();

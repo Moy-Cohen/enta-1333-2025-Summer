@@ -23,19 +23,24 @@ public class BarrackInstance : MonoBehaviour
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= SpawnInterval)
         {
-            SpawnUnit();
+            
             spawnTimer = 0f;
         }
     }
 
-    private void SpawnUnit()
+    public void SpawnUnit(UnitType unitType, int lane)
     {
-        int randomLane = controlledLanes[Random.Range(0, controlledLanes.Length)];
-        Vector3 spawnPos = GridManager.Instance.GetWolrdPosition(0, randomLane);
-        //spawnPos.x = transform.position.x + 1f;
-        
-        UnitInstance unit = Instantiate(UnitPrefab, spawnPos, Quaternion.identity);
+        if (System.Array.IndexOf(controlledLanes, lane) < 0)
+        {
+            Debug.LogWarning("Barrack does not control this lane.");
+            return;
+        }
+
+        Vector3 spawnPos = GridManager.Instance.GetWorldPosition(0, lane);
+        UnitInstance unit = Instantiate(unitType.Prefab, spawnPos, Quaternion.identity);
         unit.Team = UnitTeam.Player;
+        unit.Initialize(unitType);
+
     }
 
     public bool  ControllsLane(int lane)
@@ -54,6 +59,7 @@ public class BarrackInstance : MonoBehaviour
         Durability -= amount;
         if (Durability<= 0)
         {
+            AudioManager.Instance.PlaySFX("BarrackDestroyed");
             DestroyBarrack();
         }
     }

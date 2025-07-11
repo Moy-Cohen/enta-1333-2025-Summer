@@ -164,6 +164,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &161347359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 161347361}
+  - component: {fileID: 161347360}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &161347360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161347359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87f404b93103b14ab09cc35b46fea00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceAmount: 0
+  regenInterval: 2
+  regenAmount: 1
+  playSFXOnRegen: 1
+--- !u!4 &161347361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161347359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &175604803
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +564,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridManager: {fileID: 1931288774}
+  _buildingOverlay: {fileID: 0}
+  _isPlacing: 0
+  _currentRotation: 0
+  _currentFootprint: {x: 1, y: 1}
+  _buildingData:
+    BuildingName: 
+    BuildingIcon: {fileID: 0}
+    BuildingPrefab: {fileID: 0}
+    footprintSize: {x: 1, y: 1}
+  _lastOverlayColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  _originalMaterial: []
 --- !u!4 &545977143
 Transform:
   m_ObjectHideFlags: 0
@@ -626,6 +689,198 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1051067994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1051067996}
+  - component: {fileID: 1051067995}
+  m_Layer: 0
+  m_Name: AudioMixer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1051067995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051067994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6fc8d4d6bd411f41930a85ec94eeef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioMixer: {fileID: 24100000, guid: 9b4c7b6c30a6bf241aa0177d833466f7, type: 2}
+  MusicGroup: {fileID: -2782127063467400638, guid: 9b4c7b6c30a6bf241aa0177d833466f7, type: 2}
+  SfxGroup: {fileID: 1351936254125642110, guid: 9b4c7b6c30a6bf241aa0177d833466f7, type: 2}
+  MusicSource: {fileID: 1647229819}
+  SfxSourcePrefab: {fileID: 6811144501064122743, guid: 51781185e00bd7d4f84d131fe3de2a86, type: 3}
+  namedClips:
+  - Name: PlayerUnitSpawn
+    Clip: {fileID: 8300000, guid: af193c531282aa84e97cffc04c9995f0, type: 3}
+  - Name: UnitClash
+    Clip: {fileID: 8300000, guid: 5310b340ed1916c41b3c07aaa32683ec, type: 3}
+  - Name: BarrackPlaced
+    Clip: {fileID: 8300000, guid: 4eba073841844dc49abecb97d5a4d3aa, type: 3}
+  - Name: BarrackDestroyed
+    Clip: {fileID: 8300000, guid: b9d89bb58b92d474ebcbcd2175262148, type: 3}
+  - Name: ButtonClick
+    Clip: {fileID: 8300000, guid: eb7948519d06e634d8ebecbc5ce7af07, type: 3}
+  - Name: ResourceGenerated
+    Clip: {fileID: 8300000, guid: 9b07737ba6f17d54e9fea5234390480d, type: 3}
+--- !u!4 &1051067996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051067994}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1647229820}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1647229818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1647229820}
+  - component: {fileID: 1647229819}
+  m_Layer: 0
+  m_Name: MusicSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1647229819
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647229818}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1647229820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647229818}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.775637, y: -19.842438, z: -4.9650307}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1051067996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1707646832
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,9 +970,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bef763eea813e94aa41d0e95491e1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LayoutGroupParent: {fileID: 2003157905}
-  ButtonPrefab: {fileID: 6449970843234910451, guid: aa4635fb7c738c54c80482c309b40276, type: 3}
-  BuildingData: {fileID: 11400000, guid: 7eb928908bad2a24695ba7164526d4dc, type: 2}
+  buttonPrefab: {fileID: 3762938178291049089, guid: aa4635fb7c738c54c80482c309b40276, type: 3}
+  buttonParent: {fileID: 0}
+  unitTypes:
+  - {fileID: 11400000, guid: 2d1839356b441d548ab06141e24947cf, type: 2}
+  barrackPrefab: {fileID: 0}
+  includeBarrackButton: 1
+  LaneIndex: 0
 --- !u!1001 &1725190152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1032,12 +1291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04226ebe91f9e14f828bd6a35f6424b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 330585545}
-  _unitLayer:
-    m_Bits: 8
-  _gridManager: {fileID: 1931288774}
-  _tester: {fileID: 0}
-  <SelectedUnits>k__BackingField: []
 --- !u!4 &1789110057
 Transform:
   m_ObjectHideFlags: 0
@@ -1432,3 +1685,5 @@ SceneRoots:
   - {fileID: 545977143}
   - {fileID: 2086641976}
   - {fileID: 702504360}
+  - {fileID: 1051067996}
+  - {fileID: 161347361}
