@@ -139,6 +139,84 @@ public class GridManager : MonoBehaviour
     }
 
 
+    public void HandleGridClick(Vector3 clickPosition)
+    {
+        int lane = GetLaneFromPosition(clickPosition);
+        if (lane < 0 || lane >= _gridSettings.GridSizeY) return;
+
+        if (UnitSelectionManager.Instance.SelectedUnit != null)
+        {
+            if (GetBarrackInLane(lane) == null)
+            {
+                Debug.Log("No barrack controls this lane. Unit cannot be spawned.");
+                UnitSelectionManager.Instance.ClearSelection();
+                return;
+            }
+
+            SpawnUnitFromBarrack(UnitSelectionManager.Instance.SelectedUnit, lane);
+            UnitSelectionManager.Instance.ClearSelection();
+        }
+        else if (UnitSelectionManager.Instance.SelectedBarrack != null)
+        {
+            int groupStart = (lane / 3) * 3;
+            int centerlane = groupStart + 1;
+
+            if (GetBarrackInLane(centerlane) !=  null)
+            {
+                Debug.Log("Barrack already exists in this group.");
+                UnitSelectionManager.Instance.ClearSelection();
+                return;
+            }
+
+            TryRebuildBarrack(UnitSelectionManager.Instance.SelectedBarrack, centerlane);
+            UnitSelectionManager.Instance.ClearSelection();
+        }
+    }
+
+    public int GetLaneFromPosition(Vector3 worldPosition)
+    {
+        float cellSize = _gridSettings.NodeSize;
+        int lane = Mathf.FloorToInt(worldPosition.z /  cellSize);
+        return Mathf.Clamp(lane, 0, _gridSettings.GridSizeY - 1);
+    }
+
+    public void SpawnUnitFromBarrack(UnitType unitType, int lane)
+    {
+        BarrackInstance barrack = GetBarrackInLane(lane);
+        if (barrack == null)
+        {
+            Debug.LogWarning($"No barrack controls lane {lane}");
+            return;
+        }
+        if (ResourceManager.Instance.SpendResource(unitType.UnitCost))
+        {
+            Vector3 spawnPos = GetWorldPosition(0,lane);
+            UnitInstance unit = Instantiate(unitType.Prefab, spawnPos, Quaternion.Euler(0, 90, 0));
+            unit.Team = UnitTeam.Player;
+            unit.Initialize(unitType);
+            AudioManager.Instance.PlaySFX("PlayerUnitSpawn");
+        }
+        else
+        {
+            Debug.Log("Not enough resources to spawn unit.");
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Plane gridPlane = new Plane(Vector3.up, Vector3.zero);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if(gridPlane.Raycast(ray, out float enter))
+            {
+                Vector3 hitpoint = ray.GetPoint(enter);
+                HandleGridClick(hitpoint);
+            }
+        }
+    }
+
     /// <summary>
     /// Creates a new GridNode with assigned terrain and properties.
     /// </summary>

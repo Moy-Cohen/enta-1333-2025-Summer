@@ -41,7 +41,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 110, y: 75}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5496971036209169962
@@ -97,10 +97,10 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: 100
   m_MinHeight: 100
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
+  m_PreferredWidth: 120
+  m_PreferredHeight: 60
+  m_FlexibleWidth: 0
+  m_FlexibleHeight: 0
   m_LayoutPriority: 1
 --- !u!114 &4464197841238082065
 MonoBehaviour:
@@ -154,9 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ecd1875bb168e43a1a4985d9e35fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonImage: {fileID: 8500838896745769117}
-  _buttonText: {fileID: 6346897067252520491}
-  _button: {fileID: 3082160359131149966}
+  button: {fileID: 3082160359131149966}
+  label: {fileID: 6346897067252520491}
 --- !u!114 &3082160359131149966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,9 +200,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6449970843234910451}
+      - m_Target: {fileID: 3762938178291049089}
         m_TargetAssemblyTypeName: SelectBuildingButton, Assembly-CSharp
-        m_MethodName: OnClickPlaceBuilding
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -248,7 +247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 64.005005, y: -25}
+  m_AnchoredPosition: {x: 79.005005, y: -25}
   m_SizeDelta: {x: 54.98, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4078369764683921091

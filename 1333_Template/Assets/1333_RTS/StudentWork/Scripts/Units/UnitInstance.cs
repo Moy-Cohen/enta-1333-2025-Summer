@@ -38,7 +38,7 @@ public class UnitInstance : MonoBehaviour
 
     private void MoveForward()
     {
-        Vector3 direction = Team == UnitTeam.Player ? Vector3.back : Vector3.forward;
+        Vector3 direction = Team == UnitTeam.Player ? Vector3.forward : Vector3.forward;
         transform.Translate(direction * MoveSpeed * Time.deltaTime);
     }
 

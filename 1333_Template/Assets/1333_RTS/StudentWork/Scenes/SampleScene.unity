@@ -563,22 +563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f2bce637f48064f84a2d8dc4333b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridManager: {fileID: 1931288774}
-  _buildingOverlay: {fileID: 0}
-  _isPlacing: 0
-  _currentRotation: 0
-  _currentFootprint: {x: 1, y: 1}
-  _buildingData:
-    BuildingName: 
-    BuildingIcon: {fileID: 0}
-    BuildingPrefab: {fileID: 0}
-    footprintSize: {x: 1, y: 1}
-  _lastOverlayColor:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  _originalMaterial: []
 --- !u!4 &545977143
 Transform:
   m_ObjectHideFlags: 0
@@ -892,7 +876,6 @@ GameObject:
   - component: {fileID: 1707646833}
   - component: {fileID: 1707646835}
   - component: {fileID: 1707646834}
-  - component: {fileID: 1707646836}
   m_Layer: 5
   m_Name: BuildingPlacementPanel
   m_TagString: Untagged
@@ -958,25 +941,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707646832}
   m_CullTransparentMesh: 1
---- !u!114 &1707646836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707646832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bef763eea813e94aa41d0e95491e1b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 3762938178291049089, guid: aa4635fb7c738c54c80482c309b40276, type: 3}
-  buttonParent: {fileID: 0}
-  unitTypes:
-  - {fileID: 11400000, guid: 2d1839356b441d548ab06141e24947cf, type: 2}
-  barrackPrefab: {fileID: 0}
-  includeBarrackButton: 1
-  LaneIndex: 0
 --- !u!1001 &1725190152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1520,6 +1484,7 @@ GameObject:
   - component: {fileID: 2003157908}
   - component: {fileID: 2003157907}
   - component: {fileID: 2003157906}
+  - component: {fileID: 2003157910}
   m_Layer: 5
   m_Name: LayoutGroup
   m_TagString: Untagged
@@ -1624,6 +1589,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003157904}
   m_CullTransparentMesh: 1
+--- !u!114 &2003157910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003157904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bef763eea813e94aa41d0e95491e1b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonPrefab: {fileID: 3762938178291049089, guid: aa4635fb7c738c54c80482c309b40276, type: 3}
+  buttonParent: {fileID: 1707646833}
+  unitTypes:
+  - {fileID: 11400000, guid: 2d1839356b441d548ab06141e24947cf, type: 2}
+  barrackPrefab: {fileID: 7367344435989919025, guid: e352045b408e4034b88af54afce19ddb, type: 3}
+  includeBarrackButton: 1
+  LaneIndex: 0
 --- !u!1 &2086641974
 GameObject:
   m_ObjectHideFlags: 0

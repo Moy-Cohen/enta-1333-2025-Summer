@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -13,8 +14,10 @@ public class SelectUnitButton : MonoBehaviour
     private bool isBarrackButton;
 
     [SerializeField] private Button button;
-    [SerializeField] private Text label;
+    [SerializeField] private TextMeshProUGUI label;
 
+
+    
     public void Initialize(UnitType unit, int lane)
     {
         unitType = unit;
@@ -40,32 +43,13 @@ public class SelectUnitButton : MonoBehaviour
     {
         if (isBarrackButton)
         {
-            if(GridManager.Instance.GetBarrackInLane(laneIndex) != null)
-            {
-                Debug.Log("Barrack already exists in this lane.");
-                return;
-            }
-
-            if (ResourceManager.Instance.SpendResource(100))
-            {
-                GridManager.Instance.TryRebuildBarrack(barrackPrefab, laneIndex);
-                AudioManager.Instance.PlaySFX("BarrackPlaced");
-            }
+            UnitSelectionManager.Instance.SetSelectedBarrack(barrackPrefab);
+            Debug.Log("Barrack selected. Click a lane to place it.");
         }
         else
         {
-            BarrackInstance barrack = GridManager.Instance.GetBarrackInLane(laneIndex);
-            if (barrack == null)
-            {
-                Debug.LogWarning("No barrack in this lane to spawn unit.");
-                return;
-            }
-
-            if (ResourceManager.Instance.SpendResource(unitType.UnitCost))
-            {
-                barrack.SpawnUnit(unitType, laneIndex);
-                AudioManager.Instance.PlaySFX("PlayerUnitSpawn");
-            }
+            UnitSelectionManager.Instance.SetSelectedUnit(unitType);
+            Debug.Log($"Selected unit: {unitType.name}. Click a lane to spawn.");
         }
     }
 

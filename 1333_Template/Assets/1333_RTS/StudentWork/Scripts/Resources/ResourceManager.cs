@@ -12,6 +12,8 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private int regenAmount = 1;
     [SerializeField] private bool playSFXOnRegen = true;
 
+    public int ResourceAmmount => resourceAmount;
+
     private float timer;
 
     private void Awake()
