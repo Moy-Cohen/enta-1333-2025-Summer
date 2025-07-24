@@ -16,6 +16,10 @@ public class GridManager : MonoBehaviour
     [Header("Grid Configuration")]
     [SerializeField] private GridSettings _gridSettings;
     [SerializeField] private GameObject barrackPrefab;
+    [SerializeField] private GameObject grassBlockPrefab;
+    [SerializeField] private Material grass;
+    [SerializeField] private Material grassDark;
+
 
     [Header("Terrain Settings")]
     [SerializeField] private TerrainType _defaultTerrainType;
@@ -67,6 +71,19 @@ public class GridManager : MonoBehaviour
                 _gridNodes[x,y] = node;
                 _allNodes.Add(node);
                
+
+                Vector3 BlockPos = new Vector3 (node.WorldPosition.x, -0.5f, node.WorldPosition.z);
+                GameObject grassTile = Instantiate(grassBlockPrefab, BlockPos, Quaternion.identity);
+                grassBlockPrefab.name = $"Grass_{x}_{y}";
+
+                Renderer renderer = grassTile.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material = (y % 2 == 0) ? grass : grassDark;
+                }
+
+
+
             }
         }
 

@@ -23,3 +23,4 @@ MonoBehaviour:
   unitCost: 10
   trainingTime: 5
   unitIcon: {fileID: 0}
+  prefab: {fileID: -6990012893859951224, guid: 85f523d0c22a8814ebd52fc36bbd47b9, type: 3}

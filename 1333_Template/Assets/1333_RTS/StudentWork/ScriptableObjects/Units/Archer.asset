@@ -20,6 +20,7 @@ MonoBehaviour:
   defense: 10
   attackType: 0
   range: 8
-  unitCost: 10
+  unitCost: 2
   trainingTime: 5
   unitIcon: {fileID: 0}
+  prefab: {fileID: -1584097470279449858, guid: d39878f740a62b145b4ba2975736b5c8, type: 3}
