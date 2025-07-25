@@ -8,10 +8,32 @@ public class LaneManager : MonoBehaviour
 
     private Dictionary<int, List<UnitInstance>> laneUnits = new();
 
+    public int ActiveBarracks = 0;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        BarrackInstance[] barracks = FindObjectsOfType<BarrackInstance>();
+        ActiveBarracks = barracks.Length;
+    }
+
+    public void RegisterBarrack()
+    {
+        ActiveBarracks++;
+    }
+
+    public void UnregisterBarrack()
+    {
+        ActiveBarracks--;
+        if(ActiveBarracks <= 0)
+        {
+            GameStatesManager.Instance.ShowGameOver();
+        }
     }
 
     public void RegisterUnit(int lane, UnitInstance unit)

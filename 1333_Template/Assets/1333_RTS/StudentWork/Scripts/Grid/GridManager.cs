@@ -109,7 +109,7 @@ public class GridManager : MonoBehaviour
             float centerLane = laneStart + 1;
 
             Vector3 spawnPos = GetWorldPosition(-1, centerLane);
-            Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
+            Quaternion rotation = Quaternion.identity;
             GameObject barrack = Instantiate(barrackPrefab, spawnPos, rotation);
             barrack.transform.localScale = Vector3.one * 0.5f;
 
@@ -123,33 +123,47 @@ public class GridManager : MonoBehaviour
 
     public void TryRebuildBarrack(BarrackInstance prefab, int lane)
     {
-        BarrackInstance existing = GetBarrackInLane(lane);
-        if (existing != null) return;
+        BarrackInstance existing = GetBarrackInLane(lane, true);
+        if (existing != null)
+        {
+            if (existing.IsDestroyed())
+            {
+                existing.RebuildBarrack();
+            }
+            else
+            {
+                Debug.Log("Barrack already exists and is active.");
+            }
+            return;
+        }
+
 
         int startLane = lane - (lane % 3);
         float centerLane = startLane + 1;
 
         Vector3 spawnPos = GetWorldPosition(-1,centerLane);
-        Quaternion rotation = Quaternion.Euler(-90f, 0f, 0f);
+        Quaternion rotation = Quaternion.identity;
         GameObject barrack = Instantiate(barrackPrefab, spawnPos, rotation);
         barrack.transform.localScale = Vector3.one * 0.5f;
 
-        BarrackInstance instance = barrack.GetComponent<BarrackInstance>();
-        if (instance != null)
+        BarrackInstance newBarrack = barrack.GetComponent<BarrackInstance>();
+        if (newBarrack != null)
         {
-            instance.controlledLanes = new int[] {startLane, startLane + 1, startLane + 2};
+            newBarrack.controlledLanes = new int[] {startLane, startLane + 1, startLane + 2};
+            LaneManager.Instance.RegisterBarrack();
         }
     }
 
-    public BarrackInstance GetBarrackInLane(int lane)
+    public BarrackInstance GetBarrackInLane(int lane, bool includeDestroyed = false)
     {
         BarrackInstance[] allBarracks = FindObjectsOfType<BarrackInstance>();
         
         foreach(var barrack in allBarracks)
         {
-            foreach(int l in barrack.controlledLanes)
+            if (barrack.ControllsLane(lane))
             {
-                if (l == lane) return barrack;
+                if (!includeDestroyed && barrack.IsDestroyed()) continue;
+                return barrack;
             }
         }
         return null;
@@ -205,12 +219,18 @@ public class GridManager : MonoBehaviour
             Debug.LogWarning($"No barrack controls lane {lane}");
             return;
         }
+
+        if (barrack.IsDestroyed())
+        {
+            Debug.LogWarning("Cannot spawn: Barrack in this lane is destroyed. Rebuild first.");
+            return;
+        }
+
         if (ResourceManager.Instance.SpendResource(unitType.UnitCost))
         {
             Vector3 spawnPos = GetWorldPosition(0,lane);
             UnitInstance unit = Instantiate(unitType.Prefab, spawnPos, Quaternion.Euler(0, 90, 0));
-            unit.Team = UnitTeam.Player;
-            unit.Initialize(unitType);
+            unit.Initialize(unitType, UnitTeam.Player);
             AudioManager.Instance.PlaySFX("PlayerUnitSpawn");
         }
         else

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 89fb5f68a7a07e24aa03504d5a034e9e, type: 3}
       propertyPath: m_Name
-      value: Barracks_0
+      value: Barracks(Destroyed)
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 89fb5f68a7a07e24aa03504d5a034e9e, type: 3}
       propertyPath: m_LocalPosition.x

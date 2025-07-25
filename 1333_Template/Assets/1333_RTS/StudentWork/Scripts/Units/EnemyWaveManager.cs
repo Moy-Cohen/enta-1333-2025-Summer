@@ -32,7 +32,7 @@ public class EnemyWaveManager : MonoBehaviour
             Vector3 SpawnPos = GridManager.Instance.GetWorldPosition(xPos, lane);
             Quaternion rotation = Quaternion.Euler(0, -90, 0);
             UnitInstance enemy = Instantiate(EnemyUnitPrefab, SpawnPos, rotation);
-            enemy.Team = UnitTeam.Enemy;
+            enemy.Initialize(enemy.UnitType, UnitTeam.Enemy);
         }
     }
 }

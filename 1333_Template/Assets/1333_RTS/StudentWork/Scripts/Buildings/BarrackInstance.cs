@@ -1,20 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BarrackInstance : MonoBehaviour
 {
     [Header("BarrackProperties")]
     public int Durability = 10;
+    public int BarrackCost = 25;
     public int[] controlledLanes;
 
     [Header("Spawning Test")]
     public UnitInstance UnitPrefab;
     public float SpawnInterval = 5f;
 
+    [Header("Models")]
+    [SerializeField] private GameObject intactModel;
+    [SerializeField] private GameObject destroyedModel;
+
     private bool isDestroyed = false;
     private float spawnTimer;
 
+
+    private void Start()
+    {
+        if (intactModel != null) intactModel.SetActive(true);
+        if (destroyedModel !=  null) destroyedModel.SetActive(false);
+    }
 
     public void Update()
     {
@@ -30,6 +42,7 @@ public class BarrackInstance : MonoBehaviour
 
     public void SpawnUnit(UnitType unitType, int lane)
     {
+        if (isDestroyed || UnitPrefab == null) return;
         if (System.Array.IndexOf(controlledLanes, lane) < 0)
         {
             Debug.LogWarning("Barrack does not control this lane.");
@@ -38,8 +51,7 @@ public class BarrackInstance : MonoBehaviour
 
         Vector3 spawnPos = GridManager.Instance.GetWorldPosition(0, lane);
         UnitInstance unit = Instantiate(unitType.Prefab, spawnPos, Quaternion.identity);
-        unit.Team = UnitTeam.Player;
-        unit.Initialize(unitType);
+        unit.Initialize(unitType, UnitTeam.Player);
 
     }
 
@@ -66,8 +78,45 @@ public class BarrackInstance : MonoBehaviour
 
     private void DestroyBarrack()
     {
+        if(isDestroyed) return;
         isDestroyed = true;
-        //ToDo disable spawing when destroy
-        gameObject.SetActive(false);
+
+        if (LaneManager.Instance != null)
+        {
+            LaneManager.Instance.UnregisterBarrack();
+        }
+
+
+        if (intactModel != null) intactModel.SetActive(false);
+        if (destroyedModel != null) destroyedModel.SetActive(true);
+    }
+
+    public void RebuildBarrack()
+    {
+        if (!isDestroyed) return;
+
+        if (!ResourceManager.Instance.SpendResource(BarrackCost))
+        {
+            Debug.Log("Not enough resources to rebuild barrack.");
+            return;
+        }
+
+        isDestroyed = false;
+        Durability = 10;
+
+        if (LaneManager.Instance != null)
+        {
+            LaneManager.Instance.RegisterBarrack();
+        }
+
+        if (intactModel != null) intactModel.SetActive(true);
+        if (destroyedModel != null) destroyedModel.SetActive(false);
+
+        AudioManager.Instance.PlaySFX("BarrackPlaced");
+    }
+
+    public bool IsDestroyed()
+    {
+        return isDestroyed;
     }
 }

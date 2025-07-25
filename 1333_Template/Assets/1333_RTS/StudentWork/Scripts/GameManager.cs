@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
 {
     [Header("System References")]
     [SerializeField] private GridManager _gridManager;
-    [SerializeField] private UnitManager _unitManager;
-    /*[SerializeField] private Pathfinder pathfinder;*/
 
     /// <summary>
     /// Called before the game starts.

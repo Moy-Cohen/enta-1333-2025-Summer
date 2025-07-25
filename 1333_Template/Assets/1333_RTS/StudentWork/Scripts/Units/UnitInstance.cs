@@ -9,23 +9,34 @@ public enum UnitTeam
 public class UnitInstance : MonoBehaviour
 {
     [Header("UnitSettings")]
-    public UnitTeam Team;
-    public UnitType UnitType;
+    public UnitTeam Team { get; private set; }
+    public UnitType UnitType {  get; private set; }
+    public int Durability {get; private set; }
+    public int Damage { get; private set; }
+    public float MoveSpeed = 2f;
 
-    public float MoveSpeed;
-    public int Durability;
     private int laneIndex;
-
     private bool hasTakenHitThisFrame = false;
-    
 
+    /// <summary>
+    /// Initialize unit with its type data and team assignment.
+    /// </summary>
+    /// 
+    public void Initialize(UnitType unitType, UnitTeam team)
+    {
+        UnitType = unitType;
+        Team = team;
+        Durability = unitType.Durability;
+        Damage = unitType.Damage;
+
+        Color teamColor = (team == UnitTeam.Player) ? Color.blue : Color.red;
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null) renderer.material.color = teamColor;
+
+        gameObject.name = $"{unitType.UnitName} ({team}";
+    }
     private void Start()
     {
-        if (UnitType != null)
-        {
-            Durability = UnitType.MaxHp;
-            MoveSpeed = UnitType.MoveSpeed;
-        }
         laneIndex = Mathf.RoundToInt(transform.position.z);
         LaneManager.Instance.RegisterUnit(laneIndex, this);
     }
@@ -38,16 +49,17 @@ public class UnitInstance : MonoBehaviour
 
     private void MoveForward()
     {
-        Vector3 direction = Team == UnitTeam.Player ? Vector3.forward : Vector3.forward;
-        transform.Translate(direction * MoveSpeed * Time.deltaTime);
+        
+        transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
     }
 
-    public void TakeHit()
+    public void TakeHit(int damage = 1)
     {
         if (hasTakenHitThisFrame) return;
 
-        Durability--;
+        Durability -= damage;
         hasTakenHitThisFrame = true;
+
         if (Durability <= 0)
         {
             Destroy(gameObject);
@@ -62,9 +74,6 @@ public class UnitInstance : MonoBehaviour
         }
     }
 
-    public void Initialize(UnitType unitType)
-    {
-        
-    }
+    
 
 }
