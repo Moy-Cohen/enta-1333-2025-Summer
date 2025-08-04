@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -29,9 +30,12 @@ public class UnitInstance : MonoBehaviour
         Durability = unitType.Durability;
         Damage = unitType.Damage;
 
-        Color teamColor = (team == UnitTeam.Player) ? Color.blue : Color.red;
+        
         Renderer renderer = GetComponentInChildren<Renderer>();
-        if (renderer != null) renderer.material.color = teamColor;
+        if (renderer != null)
+        {
+            renderer.material = (team == UnitTeam.Player) ? unitType.PlayerMaterial : unitType.EnemyMaterial;
+        }
 
         gameObject.name = $"{unitType.UnitName} ({team}";
     }
@@ -62,6 +66,10 @@ public class UnitInstance : MonoBehaviour
 
         if (Durability <= 0)
         {
+            if(Team == UnitTeam.Enemy && ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddKillScore();
+            }
             Destroy(gameObject);
         }
     }
@@ -71,6 +79,11 @@ public class UnitInstance : MonoBehaviour
         if (LaneManager.Instance != null)
         {
             LaneManager.Instance.UnregisterUnit(laneIndex, this);
+        }
+
+        if(Team == UnitTeam.Enemy && EnemyWaveManager.Instance != null)
+        {
+            EnemyWaveManager.Instance.OnEnemyDestroyed(this);
         }
     }
 

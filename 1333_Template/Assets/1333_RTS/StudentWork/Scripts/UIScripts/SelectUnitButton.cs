@@ -14,7 +14,9 @@ public class SelectUnitButton : MonoBehaviour
     private bool isBarrackButton;
 
     [SerializeField] private Button button;
-    [SerializeField] private TextMeshProUGUI label;
+    [SerializeField] private TextMeshProUGUI nameLabel;
+    [SerializeField] private TextMeshProUGUI costLabel;
+    [SerializeField] private Image iconImage;
 
 
     
@@ -23,8 +25,10 @@ public class SelectUnitButton : MonoBehaviour
         unitType = unit;
         laneIndex = lane;
         isBarrackButton = false;
+        nameLabel.text = unit.name;
+        costLabel.text = $"{unit.UnitCost}";
+        iconImage.sprite = unit.UnitIcon;
 
-        label.text = unit.name;
         button.onClick.AddListener(OnClick);
     }
 
@@ -34,7 +38,10 @@ public class SelectUnitButton : MonoBehaviour
         laneIndex = lane;
         isBarrackButton = true;
 
-        label.text = $"Rebuild Barrack (Lane {lane})";
+        nameLabel.text = "Rebuild Barrack";
+        costLabel.text = $"{prefab.BarrackCost}";
+        iconImage.sprite = prefab.BarrackIcon;
+
         button.onClick.AddListener(OnClick);
     }
 

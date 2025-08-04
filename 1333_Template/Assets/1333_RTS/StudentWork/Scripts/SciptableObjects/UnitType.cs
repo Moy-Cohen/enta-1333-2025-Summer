@@ -13,7 +13,10 @@ public class UnitType : ScriptableObject
     [SerializeField] private string unitName = "Unit";
     [SerializeField] private UnitInstance prefab;
     [SerializeField] private Sprite unitIcon;
-    
+
+    [Header("Materials")]
+    [SerializeField] private Material playerMaterial;
+    [SerializeField] private Material enemyMaterial;
 
     [Header("Combat Stats")]
     [SerializeField] private int durability = 1;
@@ -22,11 +25,15 @@ public class UnitType : ScriptableObject
     [Header("Cost")]
     [SerializeField] private int unitCost = 10;
 
+    [SerializeField] private bool isBarrackCard = false;
+
+    public string UnitName => unitName;
     public UnitInstance Prefab => prefab;
     public Sprite UnitIcon => unitIcon;
-    public string UnitName => unitName;
+    public Material PlayerMaterial => playerMaterial;
+    public Material EnemyMaterial => enemyMaterial;
     public int Durability => durability;
     public int Damage => damage;
     public int UnitCost => unitCost;
-
+    public bool IsBarrackCard => isBarrackCard;
 }

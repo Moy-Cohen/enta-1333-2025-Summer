@@ -8,6 +8,7 @@ public class BarrackInstance : MonoBehaviour
     [Header("BarrackProperties")]
     public int Durability = 10;
     public int BarrackCost = 25;
+    [SerializeField] public Sprite BarrackIcon;
     public int[] controlledLanes;
 
     [Header("Spawning Test")]

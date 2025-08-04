@@ -101,7 +101,7 @@ public class GridManager : MonoBehaviour
     private void SpawnBarracks()
     {
         int lanesPerBarrack = 3;
-        int totalBarraks = _gridSettings.GridSizeX / lanesPerBarrack;
+        int totalBarraks = _gridSettings.GridSizeY / lanesPerBarrack;
 
         for (int i = 0; i < totalBarraks; i++)
         {
@@ -241,7 +241,7 @@ public class GridManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             Plane gridPlane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -251,7 +251,7 @@ public class GridManager : MonoBehaviour
                 Vector3 hitpoint = ray.GetPoint(enter);
                 HandleGridClick(hitpoint);
             }
-        }
+        }*/
     }
 
     /// <summary>

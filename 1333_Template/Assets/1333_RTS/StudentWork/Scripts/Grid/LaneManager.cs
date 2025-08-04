@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class LaneManager : MonoBehaviour
 {
     public static LaneManager Instance;
+
+    [SerializeField] private GridSettings gridSettings;
+
+    private float laneEndx;
 
     private Dictionary<int, List<UnitInstance>> laneUnits = new();
 
@@ -14,6 +19,8 @@ public class LaneManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        laneEndx = gridSettings.GridSizeX + 1.5f;
     }
 
     private void Start()
@@ -90,6 +97,7 @@ public class LaneManager : MonoBehaviour
         }
 
         HandleBarrackDamage();
+        CullPlayerUnitsAtLaneEnd();
     }
 
     private void HandleBarrackDamage()
@@ -119,4 +127,22 @@ public class LaneManager : MonoBehaviour
             }
         }
     }
+
+    private void CullPlayerUnitsAtLaneEnd()
+    {
+        foreach (var lane in laneUnits)
+        {
+            foreach(UnitInstance unit in lane.Value.ToArray())
+            {
+                if (unit == null) continue;
+
+                if (unit.Team == UnitTeam.Player && unit.transform.position.x >= laneEndx)
+                {
+                    Destroy(unit.gameObject);
+                    UnregisterUnit(lane.Key, unit);
+                }
+            }
+        }
+    }
+
 }

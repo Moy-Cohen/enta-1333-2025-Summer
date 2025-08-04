@@ -10,17 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b503d5d7f2f2764c869ee8fbb67f312, type: 3}
-  m_Name: Archer
+  m_Name: RebuildBarrack
   m_EditorClassIdentifier: 
-  width: 1
-  height: 1
-  maxHp: 1
-  moveSpeed: 1
-  damage: 5
-  defense: 10
-  attackType: 0
-  range: 8
-  unitCost: 2
-  trainingTime: 5
-  unitIcon: {fileID: 0}
-  prefab: {fileID: -1584097470279449858, guid: d39878f740a62b145b4ba2975736b5c8, type: 3}
+  unitName: Rebuild Barrack
+  prefab: {fileID: 0}
+  unitIcon: {fileID: 21300000, guid: a59bc2c92b8a62c4abe0444898e8ec88, type: 3}
+  playerMaterial: {fileID: 2100000, guid: 4a8b820c98c7b4540bab4e4f3d70d7fb, type: 2}
+  enemyMaterial: {fileID: 0}
+  durability: 0
+  damage: 0
+  unitCost: 50
+  isBarrackCard: 1

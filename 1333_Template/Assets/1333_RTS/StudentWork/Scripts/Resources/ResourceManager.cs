@@ -8,7 +8,7 @@ public class ResourceManager : MonoBehaviour
 
     [Header("Resource Settings")]
     [SerializeField] private int resourceAmount = 0;
-    [SerializeField] private float regenInterval = 2f;
+    [SerializeField] private float regenInterval = 0.2f;
     [SerializeField] private int regenAmount = 1;
     [SerializeField] private bool playSFXOnRegen = true;
 

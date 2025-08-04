@@ -12,15 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b503d5d7f2f2764c869ee8fbb67f312, type: 3}
   m_Name: Spearman
   m_EditorClassIdentifier: 
-  width: 1
-  height: 1
-  maxHp: 1
-  moveSpeed: 1
-  damage: 5
-  defense: 15
-  attackType: 0
-  range: 2
-  unitCost: 10
-  trainingTime: 5
-  unitIcon: {fileID: 0}
-  prefab: {fileID: -6990012893859951224, guid: 85f523d0c22a8814ebd52fc36bbd47b9, type: 3}
+  unitName: Spearman
+  prefab: {fileID: 5680619819295838087, guid: 71f258830752c7d46b3653099b330c3b, type: 3}
+  unitIcon: {fileID: 21300000, guid: 77a544637342aa548b1be0057a677431, type: 3}
+  playerMaterial: {fileID: 2100000, guid: 792a4bad9e08b8e41bfbd3f0b8aac1ab, type: 2}
+  enemyMaterial: {fileID: 2100000, guid: 98a7fdcb4ebb44344b4afe0424d44b82, type: 2}
+  durability: 1
+  damage: 1
+  unitCost: 5

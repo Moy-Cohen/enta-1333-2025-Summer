@@ -7,7 +7,6 @@ public class UnitSpawnUI : MonoBehaviour
 {
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private Transform buttonParent;
-    [SerializeField] private List<UnitType> unitTypes;
     [SerializeField] private BarrackInstance barrackPrefab;
     [SerializeField] private bool includeBarrackButton = true;
 
@@ -16,7 +15,9 @@ public class UnitSpawnUI : MonoBehaviour
 
     private void Start()
     {
-        foreach(UnitType unit in  unitTypes)
+        UnitType[] playerUnits = UnitDatabase.Instance.PlayerUnits;
+
+        foreach(UnitType unit in  playerUnits)
         {
             GameObject btn = Instantiate(buttonPrefab, buttonParent);
             SelectUnitButton selector = btn.GetComponent<SelectUnitButton>();
