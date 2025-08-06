@@ -145,4 +145,15 @@ public class LaneManager : MonoBehaviour
         }
     }
 
+    public IEnumerable<UnitInstance> GetAllUnits()
+    {
+        foreach (var list in laneUnits.Values)
+        {
+            foreach (var u in list)
+            {
+                if (u !=  null) yield return u;
+            }
+        }
+    }
+
 }
