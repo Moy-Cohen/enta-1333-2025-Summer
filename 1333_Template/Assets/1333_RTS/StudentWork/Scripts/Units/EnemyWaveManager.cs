@@ -180,4 +180,6 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
+
+    public void LoadWave(int index, float timer) { CurrentWave = index; CurrentWaveTimer = timer; }
 }

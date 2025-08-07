@@ -28,7 +28,6 @@ public class GameSaveData
         public string UnitTypeName;
         public Team Team;
         public Vector3 Position;
-        public int CurrentHP;
     }
 
     public enum Team

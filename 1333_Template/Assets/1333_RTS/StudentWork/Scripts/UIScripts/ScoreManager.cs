@@ -44,4 +44,6 @@ public class ScoreManager : MonoBehaviour
     {
         scoreFloat = 0f;
     }
+
+    public void SetScore(float val) { scoreFloat = val; }
 }

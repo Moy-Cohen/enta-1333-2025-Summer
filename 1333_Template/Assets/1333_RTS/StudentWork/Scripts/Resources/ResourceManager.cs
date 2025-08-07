@@ -53,4 +53,6 @@ public class ResourceManager : MonoBehaviour
     }
 
     public int GetResourceAmount() =>  resourceAmount; 
+
+    public void SetResources(int value) { resourceAmount = value; }
 }

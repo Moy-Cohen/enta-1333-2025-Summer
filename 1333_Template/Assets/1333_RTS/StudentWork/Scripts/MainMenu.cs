@@ -2,18 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private string gameplaySceneName = "SampleScene";
 
     [SerializeField] private GameObject loadingPanel;
-    [SerializeField] private UnityEngine.UI.Slider progressBar;
+    [SerializeField] private Slider progressBar;
+    [SerializeField] private GameObject howToPlayPanel;
+
+
+    [SerializeField] private Button continueButton;
+
+    private void Start()
+    {
+        if (continueButton != null)
+        {
+            continueButton.interactable = SaveManager.SaveExists();
+        }
+    }
 
     public void PlayGame()
     {
+        SaveManager.DeleteSave();
         StartCoroutine(LoadGameAsync("SampleScene"));
+    }
+
+    public void ContinueGame()
+    {
+        if(!SaveManager.SaveExists()) return;
+        SaveManager.LoadGame();
+        StartCoroutine(LoadGameAsync(gameplaySceneName));
     }
 
     private IEnumerator LoadGameAsync(string sceneName)
@@ -42,9 +62,14 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    public void ContinueGame()
+    public void Instructions()
     {
-        //Add Logic for Game save file
+        howToPlayPanel.SetActive(true);
+    }
+
+    public void ExitInstructions()
+    {
+        howToPlayPanel.SetActive(false);
     }
 
     public void QuitGame()

@@ -45,6 +45,6 @@ public class AudioSettingUI : MonoBehaviour
     static float LinearToDb(float v) => Mathf.Log10(Mathf.Clamp(v, 0.0001f, 1f)) * 20f;
     static float DbToLinear(float db) => Mathf.Pow(10f, db / 20f);
 
-
+    public void SetSliders(float music, float sxf) { MusicSlider.value = music; SFXSlider.value = sxf; }
 
 }
