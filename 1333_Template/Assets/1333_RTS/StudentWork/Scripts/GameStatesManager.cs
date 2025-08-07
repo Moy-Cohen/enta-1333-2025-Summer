@@ -63,11 +63,13 @@ public class GameStatesManager : MonoBehaviour
 
     public void RestartGame()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void BackToMenu()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         SceneManager.LoadScene("MainMenuScene");
     }
 }

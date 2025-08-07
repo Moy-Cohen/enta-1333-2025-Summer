@@ -26,6 +26,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void TogglePause()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         isPaused = !isPaused;
         pausePanel.SetActive(isPaused);
 

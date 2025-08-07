@@ -25,13 +25,15 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         SaveManager.DeleteSave();
         StartCoroutine(LoadGameAsync("SampleScene"));
     }
 
     public void ContinueGame()
     {
-        if(!SaveManager.SaveExists()) return;
+        AudioManager.Instance.PlaySFX("ButtonClick");
+        if (!SaveManager.SaveExists()) return;
         SaveManager.LoadGame();
         StartCoroutine(LoadGameAsync(gameplaySceneName));
     }
@@ -64,16 +66,19 @@ public class MainMenu : MonoBehaviour
 
     public void Instructions()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         howToPlayPanel.SetActive(true);
     }
 
     public void ExitInstructions()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         howToPlayPanel.SetActive(false);
     }
 
     public void QuitGame()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         Application.Quit();
     }
 }

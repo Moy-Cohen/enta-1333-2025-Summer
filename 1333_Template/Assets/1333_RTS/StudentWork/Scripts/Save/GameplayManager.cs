@@ -23,6 +23,7 @@ public class GameplayManager : MonoBehaviour
 
     public void OnSaveAndQuit()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         SaveManager.SaveGame(ctx);
         Time.timeScale = 1f;
         SceneManager.LoadScene(mainMenuScene);

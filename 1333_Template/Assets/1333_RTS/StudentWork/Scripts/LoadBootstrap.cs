@@ -5,6 +5,7 @@ using UnityEngine;
 public class LoadBootstrap : MonoBehaviour
 {
     [SerializeField] private AudioSource Music;
+    [SerializeField] private AudioClip BackgroundMusic;
     private void Start()
     {
         if (!SaveManager.TryGetPending(out GameSaveData d)) return;
@@ -47,9 +48,10 @@ public class LoadBootstrap : MonoBehaviour
         Debug.Log("Save file loaded and applied");
 
 
-        Music.loop = true;
+        /*Music.loop = true;
         Music.Play();
-        Debug.Log("Music is Playing");
+        Debug.Log("Music is Playing");*/
+        AudioManager.Instance.PlayMusic(BackgroundMusic);
 
 
 
